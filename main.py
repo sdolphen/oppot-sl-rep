@@ -27,8 +27,8 @@ creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scope)
 client = gspread.authorize(creds)
 
 # Open the Google Sheet
-sheet = client.open("Oppem Event").sheet1  # Replace with your Google Sheet name
-reservation_sheet = client.open("Oppem Event").get_worksheet(1)  # Second sheet for reservations
+sheet = client.open("Oppemevent").sheet1  # Replace with your Google Sheet name
+reservation_sheet = client.open("Oppemevent").get_worksheet(1)  # Second sheet for reservations
 
 # Function to check and update slot availability
 def get_slot_availability():
