@@ -11,8 +11,8 @@ creds = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', sco
 client = gspread.authorize(creds)
 
 # Open the Google Sheet
-sheet = client.open("Football Club Event").sheet1  # Replace with your Google Sheet name
-reservation_sheet = client.open("Football Club Event").get_worksheet(1)  # Second sheet for reservations
+sheet = client.open("Oppem Event").sheet1  # Replace with your Google Sheet name
+reservation_sheet = client.open("Oppem Event").get_worksheet(1)  # Second sheet for reservations
 
 # Function to check and update slot availability
 def get_slot_availability():
@@ -34,7 +34,7 @@ def make_reservation(timeslot, name, address, email):
         st.error("Sorry, this timeslot is fully booked.")
 
 # App layout
-st.title("Football Club Pasta Event Reservation")
+st.title("SP Oppem Event Reservation")
 
 st.header("Available Timeslots")
 timeslots, available_slots = get_slot_availability()
