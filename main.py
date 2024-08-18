@@ -38,6 +38,20 @@ def make_reservation(day, timeslot, name, address, email):
     else:
         st.error("Sorry, this timeslot is fully booked.")
 
+# Inject custom CSS for hover effects
+st.markdown("""
+    <style>
+    /* Default button hover color green */
+    .available-slot button:hover {
+        color: green !important;
+    }
+    /* Button hover color red for fully booked slots */
+    .full-slot button {
+        color: red !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Set page configuration
 st.set_page_config(page_title="SP Oppem Eetfestijn", page_icon="oppem-logo.png")
 
@@ -62,12 +76,14 @@ with col1:
             current_reservations = slot['Aantal Reservaties']
             max_capacity = slot['Max Capaciteit']
 
-            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
+            slot_class = "available-slot" if current_reservations < max_capacity else "full-slot"
+
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)", expanded=True):
                 with st.form(key=f'reservation_form_saturday_{timeslot}'):
                     name = st.text_input("Name", key=f'name_saturday_{timeslot}')
                     address = st.text_input("Address", key=f'address_saturday_{timeslot}')
                     email = st.text_input("Email", key=f'email_saturday_{timeslot}')
-                    submit = st.form_submit_button(label=f'Book {timeslot}')
+                    submit = st.form_submit_button(label=f'Book {timeslot}', args=(slot_class,))
 
                     if submit:
                         if name and address and email:
@@ -86,12 +102,14 @@ with col2:
             current_reservations = slot['Aantal Reservaties']
             max_capacity = slot['Max Capaciteit']
 
-            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
+            slot_class = "available-slot" if current_reservations < max_capacity else "full-slot"
+
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)", expanded=True):
                 with st.form(key=f'reservation_form_sunday_{timeslot}'):
                     name = st.text_input("Name", key=f'name_sunday_{timeslot}')
                     address = st.text_input("Address", key=f'address_sunday_{timeslot}')
                     email = st.text_input("Email", key=f'email_sunday_{timeslot}')
-                    submit = st.form_submit_button(label=f'Book {timeslot}')
+                    submit = st.form_submit_button(label=f'Book {timeslot}', args=(slot_class,))
 
                     if submit:
                         if name and address and email:
