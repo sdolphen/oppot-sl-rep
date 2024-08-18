@@ -44,9 +44,10 @@ def make_reservation(day, timeslot, name, address, email):
 # Inject custom CSS for hover effects
 st.markdown("""
     <style>
-    /* Change button hover color to green using hex code */
-    button, button:hover {
-        color: #00FF00 !important;  /* Bright green */
+    /* Ensure buttons have a green hover effect */
+    div.stButton button:hover {
+        color: #00FF00 !important;
+        background-color: #e0f7e0 !important; /* Optional: change background color on hover */
     }
     </style>
     """, unsafe_allow_html=True)
