@@ -47,8 +47,8 @@ timeslots, available_slots = get_slot_availability()
 if available_slots:
     for slot in available_slots:
         timeslot = slot['Timeslot']
-        current_reservations = slot['Current Reservations']
-        max_capacity = slot['Max Capacity']
+        current_reservations = slot['Aantal Reservaties']
+        max_capacity = slot['Max Capaciteit']
 
         with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
             with st.form(key=f'reservation_form_{timeslot}'):
