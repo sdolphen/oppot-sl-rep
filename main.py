@@ -20,7 +20,7 @@ reservation_sheet = client.open("Oppemevent").get_worksheet(1)  # Second sheet f
 # Function to check and update slot availability
 def get_slot_availability():
     timeslots = sheet.get_all_records()
-    available_slots = [slot for slot in timeslots if slot['Current Reservations'] < slot['Max Capacity']]
+    available_slots = [slot for slot in timeslots if slot['Aantal Reservaties'] < slot['Max Capaciteit']]
     return timeslots, available_slots
 
 # Function to make a reservation
