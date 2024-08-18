@@ -44,8 +44,8 @@ def make_reservation(day, timeslot, name, address, email):
 # Inject custom CSS for expander header text
 st.markdown("""
     <style>
-    /* Make expander header text green */
-    .streamlit-expanderHeader {
+    /* Targeting the expander header text */
+    .streamlit-expanderHeader div {
         color: #00FF00 !important;
     }
     </style>
