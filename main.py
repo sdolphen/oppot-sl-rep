@@ -38,17 +38,17 @@ def make_reservation(day, timeslot, name, address, email):
     else:
         st.error("Sorry, this timeslot is fully booked.")
 
+# Set page configuration
+st.set_page_config(page_title="SP Oppem Eetfestijn", page_icon="oppem-logo.png")
+
 # App layout
 st.title("SP Oppem Eetfestijn")
 
 # Smaller subtitle with markdown (using h3 for smaller size)
 st.markdown("### Kies een vrij moment om te reserveren")
 
-##st.markdown('#####')
-
 # Adding a smaller banner image below the subtitle
 st.image("oppem-logo.png", width=300)  # Banner is now half as small
-##st.markdown('######')
 
 # Create two columns for Saturday and Sunday
 col1, col2 = st.columns(2)
