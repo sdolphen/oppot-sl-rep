@@ -37,7 +37,7 @@ def make_reservation(day, timeslot, name, address, email):
         sheet.update_cell(cell.row, 3, current_reservations + 1)
         # Add to the reservations sheet
         reservation_sheet.append_row([day, timeslot, name, address, email])
-        st.success(f"Reservation for {timeslot} on {day} confirmed!")
+        st.success(f"Reservatie voor {timeslot} op {day} bevestigd!")
     else:
         st.error("Sorry, this timeslot is fully booked.")
 
@@ -74,10 +74,10 @@ with col1:
 
             with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
                 with st.form(key=f'reservation_form_saturday_{timeslot}'):
-                    name = st.text_input("Name", key=f'name_saturday_{timeslot}')
-                    address = st.text_input("Address", key=f'address_saturday_{timeslot}')
+                    name = st.text_input("Naam", key=f'name_saturday_{timeslot}')
+                    address = st.text_input("Adres", key=f'address_saturday_{timeslot}')
                     email = st.text_input("Email", key=f'email_saturday_{timeslot}')
-                    submit = st.form_submit_button(label=f'Book {timeslot}')
+                    submit = st.form_submit_button(label=f'Reserveer {timeslot}')
 
                     if submit:
                         if name and address and email:
@@ -98,10 +98,10 @@ with col2:
 
             with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
                 with st.form(key=f'reservation_form_sunday_{timeslot}'):
-                    name = st.text_input("Name", key=f'name_sunday_{timeslot}')
-                    address = st.text_input("Address", key=f'address_sunday_{timeslot}')
+                    name = st.text_input("Naam", key=f'name_sunday_{timeslot}')
+                    address = st.text_input("Adres", key=f'address_sunday_{timeslot}')
                     email = st.text_input("Email", key=f'email_sunday_{timeslot}')
-                    submit = st.form_submit_button(label=f'Book {timeslot}')
+                    submit = st.form_submit_button(label=f'Reserveer {timeslot}')
 
                     if submit:
                         if name and address and email:
