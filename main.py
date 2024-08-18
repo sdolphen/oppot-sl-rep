@@ -38,24 +38,6 @@ def make_reservation(day, timeslot, name, address, email):
     else:
         st.error("Sorry, this timeslot is fully booked.")
 
-# Inject custom CSS for hover effects
-st.markdown("""
-    <style>
-    /* Change link hover color to white */
-    a:hover {
-        color: white !important;
-    }
-    /* Change expander header hover color to green */
-    .streamlit-expanderHeader:hover {
-        color: green !important;
-    }
-    /* Change button text hover color to black */
-    button:hover {
-        color: black !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
 # Set page configuration
 st.set_page_config(page_title="SP Oppem Eetfestijn", page_icon="oppem-logo.png")
 
