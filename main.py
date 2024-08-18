@@ -41,13 +41,18 @@ def make_reservation(day, timeslot, name, address, email):
     else:
         st.error("Sorry, this timeslot is fully booked.")
 
-# Inject custom CSS for hover effects
+# Inject custom CSS for expander headers
 st.markdown("""
     <style>
-    /* Ensure buttons have a green hover effect */
+    /* Remove green background from buttons */
     div.stButton button:hover {
         color: #00FF00 !important;
-        background-color: #e0f7e0 !important; /* Optional: change background color on hover */
+        background-color: transparent !important;
+    }
+
+    /* Make expander headers green */
+    .streamlit-expanderHeader {
+        color: #00FF00 !important;
     }
     </style>
     """, unsafe_allow_html=True)
