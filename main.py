@@ -1,9 +1,6 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-import streamlit as st
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 
 ##------------------------- GOOGLE API SETUP ---------------------------##
 
@@ -43,30 +40,55 @@ def make_reservation(day, timeslot, name, address, email):
 
 # App layout
 st.title("SP Oppem Eetfestijn")
-st.header("Kies een dag en een vrij moment om te reserveren")
+st.header("Kies een vrij moment om te reserveren voor zaterdag en zondag")
 
-# Select day
-day = st.selectbox("Select Day", ["Saturday", "Sunday"])
+# Create two columns for Saturday and Sunday
+col1, col2 = st.columns(2)
 
-available_slots = get_slot_availability(day)
+with col1:
+    st.subheader("Saturday")
+    available_slots_saturday = get_slot_availability("Saturday")
+    if available_slots_saturday:
+        for slot in available_slots_saturday:
+            timeslot = slot['Timeslot']
+            current_reservations = slot['Aantal Reservaties']
+            max_capacity = slot['Max Capaciteit']
 
-if available_slots:
-    for slot in available_slots:
-        timeslot = slot['Timeslot']
-        current_reservations = slot['Aantal Reservaties']
-        max_capacity = slot['Max Capaciteit']
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
+                with st.form(key=f'reservation_form_saturday_{timeslot}'):
+                    name = st.text_input("Name", key=f'name_saturday_{timeslot}')
+                    address = st.text_input("Address", key=f'address_saturday_{timeslot}')
+                    email = st.text_input("Email", key=f'email_saturday_{timeslot}')
+                    submit = st.form_submit_button(label=f'Book {timeslot}')
 
-        with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
-            with st.form(key=f'reservation_form_{day}_{timeslot}'):
-                name = st.text_input("Name")
-                address = st.text_input("Address")
-                email = st.text_input("Email")
-                submit = st.form_submit_button(label=f'Book {timeslot}')
+                    if submit:
+                        if name and address and email:
+                            make_reservation("Saturday", timeslot, name, address, email)
+                        else:
+                            st.error("Please fill out all fields.")
+    else:
+        st.info("All timeslots for Saturday are fully booked.")
 
-                if submit:
-                    if name and address and email:
-                        make_reservation(day, timeslot, name, address, email)
-                    else:
-                        st.error("Please fill out all fields.")
-else:
-    st.info("All timeslots for the selected day are fully booked.")
+with col2:
+    st.subheader("Sunday")
+    available_slots_sunday = get_slot_availability("Sunday")
+    if available_slots_sunday:
+        for slot in available_slots_sunday:
+            timeslot = slot['Timeslot']
+            current_reservations = slot['Aantal Reservaties']
+            max_capacity = slot['Max Capaciteit']
+
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
+                with st.form(key=f'reservation_form_sunday_{timeslot}'):
+                    name = st.text_input("Name", key=f'name_sunday_{timeslot}')
+                    address = st.text_input("Address", key=f'address_sunday_{timeslot}')
+                    email = st.text_input("Email", key=f'email_sunday_{timeslot}')
+                    submit = st.form_submit_button(label=f'Book {timeslot}')
+
+                    if submit:
+                        if name and address and email:
+                            make_reservation("Sunday", timeslot, name, address, email)
+                        else:
+                            st.error("Please fill out all fields.")
+    else:
+        st.info("All timeslots for Sunday are fully booked.")
