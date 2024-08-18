@@ -3,6 +3,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 ##------------------------- GOOGLE API SETUP ---------------------------##
+
 # Set up the credentials using Streamlit secrets
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(
     st.secrets["gcp_service_account"],
@@ -26,9 +27,11 @@ def get_slot_availability():
 def make_reservation(timeslot, name, address, email):
     # Update the main sheet's reservation count
     cell = sheet.find(timeslot)
-    current_reservations = int(sheet.cell(cell.row, 3).value)  # Assuming the third column is 'Current Reservations'
-    if current_reservations < 10:
-        sheet.update_cell(cell.row, 3, current_reservations + 1)
+    current_reservations = int(sheet.cell(cell.row, 2).value)  # Assuming the second column is 'Current Reservations'
+    max_capacity = int(sheet.cell(cell.row, 3).value)  # Assuming the third column is 'Max Capacity'
+    
+    if current_reservations < max_capacity:
+        sheet.update_cell(cell.row, 2, current_reservations + 1)
         # Add to the reservations sheet
         reservation_sheet.append_row([timeslot, name, address, email])
         st.success(f"Reservation for {timeslot} confirmed!")
@@ -37,27 +40,28 @@ def make_reservation(timeslot, name, address, email):
 
 # App layout
 st.title("SP Oppem Event Reservation")
+st.header("Select a Timeslot to Reserve")
 
-st.header("Available Timeslots")
 timeslots, available_slots = get_slot_availability()
 
-# Display available timeslots and reservation forms
-for slot in timeslots:
-    timeslot = slot['Timeslot']
-    current_reservations = slot['Current Reservations']
-    max_capacity = slot['Max Capacity']
+if available_slots:
+    for slot in available_slots:
+        timeslot = slot['Timeslot']
+        current_reservations = slot['Current Reservations']
+        max_capacity = slot['Max Capacity']
 
-    st.write(f"{timeslot}: {current_reservations}/{max_capacity} reservations")
-    
-    if current_reservations < max_capacity:
-        with st.form(key=f'reservation_form_{timeslot}'):
-            name = st.text_input("Name")
-            address = st.text_input("Address")
-            email = st.text_input("Email")
-            submit = st.form_submit_button(label=f'Book {timeslot}')
+        with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
+            with st.form(key=f'reservation_form_{timeslot}'):
+                name = st.text_input("Name")
+                address = st.text_input("Address")
+                email = st.text_input("Email")
+                submit = st.form_submit_button(label=f'Book {timeslot}')
 
-            if submit:
-                if name and address and email:
-                    make_reservation(timeslot, name, address, email)
-                else:
-                    st.error("Please fill out all fields.")
+                if submit:
+                    if name and address and email:
+                        make_reservation(timeslot, name, address, email)
+                    else:
+                        st.error("Please fill out all fields.")
+else:
+    st.info("All timeslots are fully booked.")
+
