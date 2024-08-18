@@ -44,6 +44,8 @@ st.title("SP Oppem Eetfestijn")
 # Smaller subtitle with markdown (using h3 for smaller size)
 st.markdown("### Kies een vrij moment om te reserveren")
 
+st.markdown('##')
+
 # Adding space after the subtitle
 st.write("")  # Adds one blank line of space
 
