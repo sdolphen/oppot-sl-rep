@@ -44,7 +44,7 @@ st.title("SP Oppem Eetfestijn")
 # Smaller subtitle with markdown (using h3 for smaller size)
 st.markdown("### Kies een vrij moment om te reserveren")
 
-st.markdown('##')
+st.markdown('###')
 
 # Adding a smaller banner image below the subtitle
 st.image("oppem-logo.png", width=300)  # Banner is now half as small
