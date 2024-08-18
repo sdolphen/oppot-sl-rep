@@ -2,6 +2,7 @@ import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+##------------------------- GOOGLE API SETUP ---------------------------##
 # Set up the credentials using Streamlit secrets
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(
     st.secrets["connections.gsheets"],
