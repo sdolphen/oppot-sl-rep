@@ -1,7 +1,6 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from google.oauth2 import service_account
 
 # Set up the credentials using Streamlit secrets
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(
@@ -26,9 +25,9 @@ def get_slot_availability():
 def make_reservation(timeslot, name, address, email):
     # Update the main sheet's reservation count
     cell = sheet.find(timeslot)
-    current_reservations = sheet.cell(cell.row, 3).value  # Assuming the third column is 'Current Reservations'
-    if int(current_reservations) < 10:
-        sheet.update_cell(cell.row, 3, int(current_reservations) + 1)
+    current_reservations = int(sheet.cell(cell.row, 3).value)  # Assuming the third column is 'Current Reservations'
+    if current_reservations < 10:
+        sheet.update_cell(cell.row, 3, current_reservations + 1)
         # Add to the reservations sheet
         reservation_sheet.append_row([timeslot, name, address, email])
         st.success(f"Reservation for {timeslot} confirmed!")
@@ -41,18 +40,23 @@ st.title("SP Oppem Event Reservation")
 st.header("Available Timeslots")
 timeslots, available_slots = get_slot_availability()
 
+# Display available timeslots and reservation forms
 for slot in timeslots:
-    st.write(f"{slot['Timeslot']}: {slot['Current Reservations']}/{slot['Max Capacity']} reservations")
-    if slot in available_slots:
-        if st.button(f"Book {slot['Timeslot']}"):
-            selected_slot = slot['Timeslot']
-            with st.form(key='reservation_form'):
-                name = st.text_input("Name")
-                address = st.text_input("Address")
-                email = st.text_input("Email")
-                submit = st.form_submit_button(label='Submit Reservation')
+    timeslot = slot['Timeslot']
+    current_reservations = slot['Current Reservations']
+    max_capacity = slot['Max Capacity']
 
-                if submit and name and address and email:
-                    make_reservation(selected_slot, name, address, email)
+    st.write(f"{timeslot}: {current_reservations}/{max_capacity} reservations")
+    
+    if current_reservations < max_capacity:
+        with st.form(key=f'reservation_form_{timeslot}'):
+            name = st.text_input("Name")
+            address = st.text_input("Address")
+            email = st.text_input("Email")
+            submit = st.form_submit_button(label=f'Book {timeslot}')
 
-# Note: Add an error message if the form is not filled out properly.
+            if submit:
+                if name and address and email:
+                    make_reservation(timeslot, name, address, email)
+                else:
+                    st.error("Please fill out all fields.")
