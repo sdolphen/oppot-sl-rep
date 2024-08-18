@@ -3,16 +3,14 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from google.oauth2 import service_account
 
+# Set up the credentials using Streamlit secrets
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(
+    st.secrets["gcp_service_account"],
+    scopes=["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+)
 
-# Access the secrets using the section name
-credentials_info = st.secrets["gcp_service_account"]
-
-# Use the credentials to authorize your API requests
-creds = service_account.Credentials.from_service_account_info(credentials_info)
-
-# Authenticate and connect to Google Sheets
-#creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scope)
-client = gspread.authorize(creds)
+# Authorize the client
+client = gspread.authorize(credentials)
 
 # Open the Google Sheet
 sheet = client.open("Oppemevent").sheet1  # Replace with your Google Sheet name

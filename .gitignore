@@ -1,0 +1,5 @@
+# Ignore the secrets file
+.streamlit/secrets.toml
+
+# Ignore the JSON key file
+*.json
