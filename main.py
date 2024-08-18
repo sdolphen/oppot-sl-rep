@@ -44,8 +44,8 @@ st.title("SP Oppem Eetfestijn")
 # Smaller subtitle with markdown (using h3 for smaller size)
 st.markdown("### Kies een vrij moment om te reserveren voor zaterdag en zondag")
 
-# Adding a banner image below the subtitle
-st.image("oppem-logo.png", use_column_width=True)
+# Adding a smaller banner image below the subtitle
+st.image("oppem-logo.png", width=600)  # Adjust the width as needed
 
 # Create two columns for Saturday and Sunday
 col1, col2 = st.columns(2)
