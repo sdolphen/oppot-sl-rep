@@ -46,9 +46,6 @@ st.markdown("### Kies een vrij moment om te reserveren")
 
 st.markdown('##')
 
-# Adding space after the subtitle
-st.write("")  # Adds one blank line of space
-
 # Adding a smaller banner image below the subtitle
 st.image("oppem-logo.png", width=300)  # Banner is now half as small
 
