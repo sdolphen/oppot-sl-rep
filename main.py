@@ -42,12 +42,10 @@ def make_reservation(day, timeslot, name, address, email):
 st.title("SP Oppem Eetfestijn")
 
 # Smaller subtitle with markdown (using h3 for smaller size)
-st.markdown("### Kies een vrij moment om te reserveren voor zaterdag en zondag")
+st.markdown("### Kies een vrij moment om te reserveren")
 
-# Add space after the subtitle
-st.write("")  # This adds a blank line of space
-# Alternatively, you can use:
-# st.markdown("<br>", unsafe_allow_html=True)  # This adds space with HTML-like syntax
+# Adding space after the subtitle
+st.write("")  # Adds one blank line of space
 
 # Adding a smaller banner image below the subtitle
 st.image("oppem-logo.png", width=300)  # Banner is now half as small
@@ -56,15 +54,15 @@ st.image("oppem-logo.png", width=300)  # Banner is now half as small
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Saturday")
-    available_slots_saturday = get_slot_availability("Saturday")
+    st.subheader("Zaterdag")
+    available_slots_saturday = get_slot_availability("Zaterdag")
     if available_slots_saturday:
         for slot in available_slots_saturday:
             timeslot = slot['Timeslot']
             current_reservations = slot['Aantal Reservaties']
             max_capacity = slot['Max Capaciteit']
 
-            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
                 with st.form(key=f'reservation_form_saturday_{timeslot}'):
                     name = st.text_input("Name", key=f'name_saturday_{timeslot}')
                     address = st.text_input("Address", key=f'address_saturday_{timeslot}')
@@ -73,22 +71,22 @@ with col1:
 
                     if submit:
                         if name and address and email:
-                            make_reservation("Saturday", timeslot, name, address, email)
+                            make_reservation("Zaterdag", timeslot, name, address, email)
                         else:
-                            st.error("Please fill out all fields.")
+                            st.error("Gelieve alle velden in te vullen")
     else:
-        st.info("All timeslots for Saturday are fully booked.")
+        st.info("Alle timeslots voor zaterdag zijn volzet")
 
 with col2:
-    st.subheader("Sunday")
-    available_slots_sunday = get_slot_availability("Sunday")
+    st.subheader("Zondag")
+    available_slots_sunday = get_slot_availability("Zondag")
     if available_slots_sunday:
         for slot in available_slots_sunday:
             timeslot = slot['Timeslot']
             current_reservations = slot['Aantal Reservaties']
             max_capacity = slot['Max Capaciteit']
 
-            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
                 with st.form(key=f'reservation_form_sunday_{timeslot}'):
                     name = st.text_input("Name", key=f'name_sunday_{timeslot}')
                     address = st.text_input("Address", key=f'address_sunday_{timeslot}')
@@ -97,8 +95,8 @@ with col2:
 
                     if submit:
                         if name and address and email:
-                            make_reservation("Sunday", timeslot, name, address, email)
+                            make_reservation("Zondag", timeslot, name, address, email)
                         else:
-                            st.error("Please fill out all fields.")
+                            st.error("Gelieve alle velden in te vullen")
     else:
-        st.info("All timeslots for Sunday are fully booked.")
+        st.info("Alle timeslots voor zondag zijn volzet")
