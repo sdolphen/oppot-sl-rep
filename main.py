@@ -40,7 +40,12 @@ def make_reservation(day, timeslot, name, address, email):
 
 # App layout
 st.title("SP Oppem Eetfestijn")
-st.header("Kies een vrij moment om te reserveren voor zaterdag en zondag")
+
+# Smaller subtitle with markdown (using h3 for smaller size)
+st.markdown("### Kies een vrij moment om te reserveren voor zaterdag en zondag")
+
+# Adding a banner image below the subtitle
+st.image("path/to/your/banner.jpg", use_column_width=True)
 
 # Create two columns for Saturday and Sunday
 col1, col2 = st.columns(2)
