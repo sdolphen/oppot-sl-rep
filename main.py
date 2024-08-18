@@ -1,30 +1,17 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2 import service_account
 
-# Define the scope for Google Sheets API
-scope = ["https://spreadsheets.google.com/feeds", 
-         'https://www.googleapis.com/auth/spreadsheets',
-         "https://www.googleapis.com/auth/drive.file", 
-         "https://www.googleapis.com/auth/drive"]
 
-# Load credentials from Streamlit secrets
-credentials = {
-    "type": st.secrets["google"]["type"],
-    "project_id": st.secrets["google"]["project_id"],
-    "private_key_id": st.secrets["google"]["private_key_id"],
-    "private_key": st.secrets["google"]["private_key"],
-    "client_email": st.secrets["google"]["client_email"],
-    "client_id": st.secrets["google"]["client_id"],
-    "auth_uri": st.secrets["google"]["auth_uri"],
-    "token_uri": st.secrets["google"]["token_uri"],
-    "auth_provider_x509_cert_url": st.secrets["google"]["auth_provider_x509_cert_url"],
-    "client_x509_cert_url": st.secrets["google"]["client_x509_cert_url"],
-    "universe_domain": st.secrets["google"]["universe_domain"]
-}
+# Access the secrets using the section name
+credentials_info = st.secrets["gcp_service_account"]
+
+# Use the credentials to authorize your API requests
+creds = service_account.Credentials.from_service_account_info(credentials_info)
 
 # Authenticate and connect to Google Sheets
-creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scope)
+#creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scope)
 client = gspread.authorize(creds)
 
 # Open the Google Sheet
