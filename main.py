@@ -4,7 +4,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # Set up the credentials using Streamlit secrets
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(
-    st.secrets["gcp_service_account"],
+    st.secrets["connections.gsheets"],
     scopes=["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 )
 
