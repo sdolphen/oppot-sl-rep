@@ -4,6 +4,9 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 ##------------------------- GOOGLE API SETUP ---------------------------##
 
+# Set page configuration
+st.set_page_config(page_title="SP Oppem Eetfestijn", page_icon="oppem-logo.png")
+
 # Set up the credentials using Streamlit secrets
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(
     st.secrets["gcp_service_account"],
@@ -47,9 +50,6 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-
-# Set page configuration
-st.set_page_config(page_title="SP Oppem Eetfestijn", page_icon="oppem-logo.png")
 
 # App layout
 st.title("SP Oppem Eetfestijn")
