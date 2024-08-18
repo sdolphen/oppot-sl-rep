@@ -8,8 +8,6 @@ credentials = ServiceAccountCredentials.from_json_keyfile_dict(
     st.secrets["connections.gsheets"],
     scopes=["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 )
-st.write(st.secrets)
-
 
 # Authorize the client
 client = gspread.authorize(credentials)

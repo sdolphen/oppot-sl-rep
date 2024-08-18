@@ -3,4 +3,4 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 
-st.write(st.secrets)
+st.write(st.secrets["gcp_service_account"])
