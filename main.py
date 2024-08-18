@@ -90,4 +90,15 @@ with col2:
 
             with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} reserved)"):
                 with st.form(key=f'reservation_form_sunday_{timeslot}'):
-                    name = st.text_input("Name", key=f'name_sunday_{
+                    name = st.text_input("Name", key=f'name_sunday_{timeslot}')
+                    address = st.text_input("Address", key=f'address_sunday_{timeslot}')
+                    email = st.text_input("Email", key=f'email_sunday_{timeslot}')
+                    submit = st.form_submit_button(label=f'Book {timeslot}')
+
+                    if submit:
+                        if name and address and email:
+                            make_reservation("Sunday", timeslot, name, address, email)
+                        else:
+                            st.error("Please fill out all fields.")
+    else:
+        st.info("All timeslots for Sunday are fully booked.")
