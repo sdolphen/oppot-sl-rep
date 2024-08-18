@@ -39,8 +39,8 @@ def make_reservation(timeslot, name, address, email):
         st.error("Sorry, this timeslot is fully booked.")
 
 # App layout
-st.title("SP Oppem Event Reservation")
-st.header("Select a Timeslot to Reserve")
+st.title("SP Oppem Eetfestijn")
+st.header("Kies een vrij moment om te reserveren")
 
 timeslots, available_slots = get_slot_availability()
 
