@@ -82,7 +82,7 @@ Wil je graag verwittigd worden wanneer deze link actief zal zijn, laat dan hier 
 """)
 
 email = st.text_input("E-mail adres", key="notification_email")
-if st.button("Opslaan"):
+if st.button("Indienen"):
     if email:
         collect_email(email)
     else:
