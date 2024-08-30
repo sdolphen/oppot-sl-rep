@@ -62,12 +62,6 @@ We zullen volgende shiften doen:
 # Adding a smaller banner image
 st.image("oppem-logo.png", width=300)  # Banner is now half as small
 
-# Updated timeslots
-updated_timeslots = {
-    "Zaterdag": ["17u-18u30", "18u30-20u", "20u-21u30"],
-    "Zondag": ["11u30-13u00", "13u-14u30"]
-}
-
 # Create two columns for Saturday and Sunday
 col1, col2 = st.columns(2)
 
@@ -80,19 +74,18 @@ with col1:
             current_reservations = slot['Aantal Reservaties']
             max_capacity = slot['Max Capaciteit']
 
-            if timeslot in updated_timeslots["Zaterdag"]:
-                with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
-                    with st.form(key=f'reservation_form_saturday_{timeslot}'):
-                        name = st.text_input("Naam", key=f'name_saturday_{timeslot}')
-                        address = st.text_input("Adres", key=f'address_saturday_{timeslot}')
-                        email = st.text_input("Email", key=f'email_saturday_{timeslot}')
-                        submit = st.form_submit_button(label=f'Reserveer {timeslot}')
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
+                with st.form(key=f'reservation_form_saturday_{timeslot}'):
+                    name = st.text_input("Naam", key=f'name_saturday_{timeslot}')
+                    address = st.text_input("Adres", key=f'address_saturday_{timeslot}')
+                    email = st.text_input("Email", key=f'email_saturday_{timeslot}')
+                    submit = st.form_submit_button(label=f'Reserveer {timeslot}')
 
-                        if submit:
-                            if name and address and email:
-                                make_reservation("Zaterdag", timeslot, name, address, email)
-                            else:
-                                st.error("Gelieve alle velden in te vullen")
+                    if submit:
+                        if name and address and email:
+                            make_reservation("Zaterdag", timeslot, name, address, email)
+                        else:
+                            st.error("Gelieve alle velden in te vullen")
     else:
         st.info("Alle timeslots voor zaterdag zijn volzet")
 
@@ -105,18 +98,17 @@ with col2:
             current_reservations = slot['Aantal Reservaties']
             max_capacity = slot['Max Capaciteit']
 
-            if timeslot in updated_timeslots["Zondag"]:
-                with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
-                    with st.form(key=f'reservation_form_sunday_{timeslot}'):
-                        name = st.text_input("Naam", key=f'name_sunday_{timeslot}')
-                        address = st.text_input("Adres", key=f'address_sunday_{timeslot}')
-                        email = st.text_input("Email", key=f'email_sunday_{timeslot}')
-                        submit = st.form_submit_button(label=f'Reserveer {timeslot}')
+            with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
+                with st.form(key=f'reservation_form_sunday_{timeslot}'):
+                    name = st.text_input("Naam", key=f'name_sunday_{timeslot}')
+                    address = st.text_input("Adres", key=f'address_sunday_{timeslot}')
+                    email = st.text_input("Email", key=f'email_sunday_{timeslot}')
+                    submit = st.form_submit_button(label=f'Reserveer {timeslot}')
 
-                        if submit:
-                            if name and address and email:
-                                make_reservation("Zondag", timeslot, name, address, email)
-                            else:
-                                st.error("Gelieve alle velden in te vullen")
+                    if submit:
+                        if name and address and email:
+                            make_reservation("Zondag", timeslot, name, address, email)
+                        else:
+                            st.error("Gelieve alle velden in te vullen")
     else:
         st.info("Alle timeslots voor zondag zijn volzet")
