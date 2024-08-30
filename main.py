@@ -58,8 +58,7 @@ def collect_email(email):
 st.image("oppem-logo.png", width=75)
 
 # Introductory text
-st.title("Sporting Oppem")
-st.title("Eerste Spaghettiweekend")
+st.title("Spaghettiweekend Sporting Oppem")
 st.write("""
 Welkom bij Sporting Oppem en leuk dat u interesse hebt in ons Eerste Spaghettiweekend.
 We zorgen ervoor dat je hier vanaf zaterdag 14 september zal kunnen reserveren (is niet verplicht) of kan bestellen om af te halen. 
