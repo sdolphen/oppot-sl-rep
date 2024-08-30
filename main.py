@@ -59,15 +59,8 @@ We zorgen ervoor dat je hier vanaf zaterdag 14 september zal kunnen reserveren (
 We zullen volgende shiften doen:
 """)
 
-# Centering the image with custom size
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <img src="oppem-logo.png" alt="Oppem Logo" style="width: 150px;">
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
+# Adding a smaller banner image
+st.image("oppem-logo.png", width=300)  # Banner is now half as small
 
 # Updated timeslots
 updated_timeslots = {
