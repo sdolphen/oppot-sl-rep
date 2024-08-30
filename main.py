@@ -54,15 +54,8 @@ def collect_email(email):
     email_list_sheet.append_row([email])
     st.success("Je email is opgeslagen! We laten je weten wanneer de link actief is.")
 
-# Display the logo at the top and make it smaller
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <img src="oppem-logo.png" alt="Oppem Logo" style="width: 75px;">
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
+# Display the logo at the top and make it smaller using st.image
+st.image("oppem-logo.png", width=75)
 
 # Introductory text
 st.title("Sporting Oppem - Eerste Spaghettiweekend")
