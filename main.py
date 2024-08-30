@@ -16,9 +16,10 @@ credentials = ServiceAccountCredentials.from_json_keyfile_dict(
 # Authorize the client
 client = gspread.authorize(credentials)
 
-# Open the Google Sheet
-sheet = client.open("Oppemevent").sheet1  # Replace with your Google Sheet name
+# Open the Google Sheets
+sheet = client.open("Oppemevent").sheet1  # First sheet for timeslot management
 reservation_sheet = client.open("Oppemevent").get_worksheet(1)  # Second sheet for reservations
+email_sheet = client.open("Oppemevent").get_worksheet(2)  # Third sheet for storing emails
 
 # Function to check and update slot availability
 def get_slot_availability(day):
@@ -41,6 +42,11 @@ def make_reservation(day, timeslot, name, address, email):
     else:
         st.error("Sorry, this timeslot is fully booked.")
 
+# Function to save email for notifications
+def save_email(email):
+    email_sheet.append_row([email])
+    st.success("Je e-mail adres is opgeslagen. We zullen je verwittigen zodra de link actief is.")
+
 # Inject custom CSS for expander header text
 st.markdown("""
     <style>
@@ -59,8 +65,22 @@ We zorgen ervoor dat je hier vanaf zaterdag 14 september zal kunnen reserveren (
 We zullen volgende shiften doen:
 """)
 
-# Adding a smaller banner image
-st.image("oppem-logo.png", width=300)  # Banner is now half as small
+# Additional information and email capture
+st.write("""
+Zaterdag van 17u-18u30, van 18u30-20u en van 20u-21u30  
+Zondag van 11u30-13u00 en van 13u-14u30  
+Wil je graag verwittigd worden wanneer deze link actief zal zijn, laat dan hier je e-mail adres achter en we sturen jou een mailtje van zodra de reservaties en bestellingen kunnen geplaatst worden.
+""")
+
+# Email input field
+email_input = st.text_input("E-mail adres", key="notification_email")
+if st.button("Stuur mij een notificatie"):
+    if email_input:
+        save_email(email_input)
+    else:
+        st.error("Gelieve een geldig e-mail adres in te vullen.")
+
+st.write("Tot snel!")
 
 # Updated timeslots
 updated_timeslots = {
@@ -105,18 +125,3 @@ with col2:
             current_reservations = slot['Aantal Reservaties']
             max_capacity = slot['Max Capaciteit']
 
-            if timeslot in updated_timeslots["Zondag"]:
-                with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
-                    with st.form(key=f'reservation_form_sunday_{timeslot}'):
-                        name = st.text_input("Naam", key=f'name_sunday_{timeslot}')
-                        address = st.text_input("Adres", key=f'address_sunday_{timeslot}')
-                        email = st.text_input("Email", key=f'email_sunday_{timeslot}')
-                        submit = st.form_submit_button(label=f'Reserveer {timeslot}')
-
-                        if submit:
-                            if name and address and email:
-                                make_reservation("Zondag", timeslot, name, address, email)
-                            else:
-                                st.error("Gelieve alle velden in te vullen")
-    else:
-        st.info("Alle timeslots voor zondag zijn volzet")
