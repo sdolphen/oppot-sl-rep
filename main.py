@@ -54,15 +54,15 @@ def collect_email(email):
     email_list_sheet.append_row([email])
     st.success("Je email is opgeslagen! We laten je weten wanneer de link actief is.")
 
-# Inject custom CSS for expander header text
-st.markdown("""
-    <style>
-    /* Targeting the expander header text */
-    .streamlit-expanderHeader div {
-        color: #00FF00 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# Display the logo at the top and make it smaller
+st.markdown(
+    """
+    <div style="text-align: center;">
+        <img src="oppem-logo.png" alt="Oppem Logo" style="width: 75px;">
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
 
 # Introductory text
 st.title("Sporting Oppem - Eerste Spaghettiweekend")
@@ -88,9 +88,6 @@ if st.button("Opslaan"):
         st.error("Gelieve een geldig e-mail adres in te vullen")
 
 st.write("Tot snel!")
-
-# Adding a smaller banner image
-st.image("oppem-logo.png", width=300)  # Banner is now half as small
 
 # Updated timeslots
 updated_timeslots = {
