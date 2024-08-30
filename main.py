@@ -59,15 +59,8 @@ We zorgen ervoor dat je hier vanaf zaterdag 14 september zal kunnen reserveren (
 We zullen volgende shiften doen:
 """)
 
-# Centering the image
-st.markdown(
-    """
-    <div style="text-align: center;">
-        <img src="oppem-logo.png" alt="Oppem Logo" width="300">
-    </div>
-    """, 
-    unsafe_allow_html=True
-)
+# Centering the image using Streamlit
+st.image("oppem-logo.png", width=300, use_column_width=True, caption="", output_format="PNG")
 
 # Updated timeslots
 updated_timeslots = {
