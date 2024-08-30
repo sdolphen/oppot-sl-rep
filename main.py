@@ -75,7 +75,7 @@ st.markdown(
     """, 
     unsafe_allow_html=True
 )
-
+st.write("")
 # New text and email input field
 st.write("""
 Wil je graag verwittigd worden wanneer deze link actief zal zijn, laat dan hier je e-mail adres achter en we sturen jou een mailtje van zodra de reservaties en bestellingen kunnen geplaatst worden.
