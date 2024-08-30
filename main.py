@@ -65,12 +65,19 @@ We zorgen ervoor dat je hier vanaf zaterdag 14 september zal kunnen reserveren (
 We zullen volgende shiften doen:
 """)
 
+# Highlighted text with custom background color
+st.markdown(
+    """
+    <div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px; font-size: 1.1em;">
+        <strong>Zaterdag van 17u-18u30, van 18u30-20u en van 20u-21u30</strong><br>
+        <strong>Zondag van 11u30-13u00 en van 13u-14u30</strong>
+    </div>
+    """, 
+    unsafe_allow_html=True
+)
+
 # New text and email input field
 st.write("""
-Zaterdag van 17u-18u30, van 18u30-20u en van 20u-21u30
-         
-Zondag van 11u30-13u00 en van 13u-14u30
-
 Wil je graag verwittigd worden wanneer deze link actief zal zijn, laat dan hier je e-mail adres achter en we sturen jou een mailtje van zodra de reservaties en bestellingen kunnen geplaatst worden.
 """)
 
@@ -83,7 +90,6 @@ if st.button("Opslaan"):
 
 st.write("Tot snel!")
 
-st.write("Maak hier je reservatie:")
 # Updated timeslots
 updated_timeslots = {
     "Zaterdag": ["17u-18u30", "18u30-20u", "20u-21u30"],
