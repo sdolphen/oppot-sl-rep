@@ -1,6 +1,7 @@
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from gspread.exceptions import WorksheetNotFound
 
 ##------------------------- GOOGLE API SETUP ---------------------------##
 
@@ -19,7 +20,13 @@ client = gspread.authorize(credentials)
 # Open the Google Sheet
 sheet = client.open("Oppemevent").sheet1  # Replace with your Google Sheet name
 reservation_sheet = client.open("Oppemevent").get_worksheet(1)  # Second sheet for reservations
-email_list_sheet = client.open("Oppemevent").get_worksheet(2)  # Third sheet for collecting email addresses
+
+# Check if the third worksheet exists, if not, create it
+try:
+    email_list_sheet = client.open("Oppemevent").get_worksheet(2)  # Third sheet for collecting email addresses
+except WorksheetNotFound:
+    # Create the worksheet if it doesn't exist
+    email_list_sheet = client.open("Oppemevent").add_worksheet(title="Email List", rows="1000", cols="2")
 
 # Function to check and update slot availability
 def get_slot_availability(day):
