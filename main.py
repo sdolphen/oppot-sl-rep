@@ -176,4 +176,19 @@ with col2:
             if timeslot in updated_timeslots["Zondag"]:
                 with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} personen gereserveerd)"):
                     with st.form(key=f'reservation_form_sunday_{timeslot}'):
-                        first_name = st.text_input("Voornaam", key=f'first_name_sunday_{times
+                        first_name = st.text_input("Voornaam", key=f'first_name_sunday_{timeslot}')
+                        last_name = st.text_input("Naam", key=f'last_name_sunday_{timeslot}')
+                        num_persons = st.number_input("Aantal personen", min_value=1, step=1, key=f'num_persons_sunday_{timeslot}')
+                        phone_number = st.text_input("Tel. nummer", key=f'phone_sunday_{timeslot}')
+                        special_request = st.text_area("Speciale wens", key=f'special_wish_sunday_{timeslot}')
+                        submit = st.form_submit_button(label=f'Reserveer {timeslot}')
+
+                        if submit:
+                            if first_name and last_name and num_persons and phone_number:
+                                make_reservation("Zondag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
+                            else:
+                                st.error("Gelieve alle velden in te vullen")
+    else:
+        st.info("Alle timeslots voor zondag zijn volzet")
+
+# Introductory text for pickup
