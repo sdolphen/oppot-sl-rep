@@ -36,18 +36,36 @@ def get_slot_availability(day):
 
 # Function to make a reservation
 def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_number, special_request):
-    # Find the row with the matching day and timeslot
-    cell = sheet.find(timeslot)
-    current_persons = int(sheet.cell(cell.row, 3).value)  # Assuming the third column is 'Aantal Personen'
-    max_capacity = 60  # Max capacity for each slot is 60 people
+    try:
+        # Find the row with the matching day and timeslot
+        cell = sheet.find(timeslot)
+        
+        # Fetch the current number of people from the 'Aantal Reservaties' column
+        current_reservations_str = sheet.cell(cell.row, sheet.find("Aantal Reservaties").col).value
+        current_reservations = int(current_reservations_str) if current_reservations_str.isdigit() else 0
+        
+        # Fetch the max capacity from the 'Max Capaciteit' column
+        max_capacity_str = sheet.cell(cell.row, sheet.find("Max Capaciteit").col).value
+        max_capacity = int(max_capacity_str) if max_capacity_str.isdigit() else 60  # Default to 60 if missing
+        
+        # Check if there is enough room for the number of people in this reservation
+        if current_reservations + num_persons <= max_capacity:
+            # Update the number of people in the 'Aantal Reservaties' column
+            sheet.update_cell(cell.row, sheet.find("Aantal Reservaties").col, current_reservations + num_persons)
+            
+            # Add the reservation details to the reservation sheet
+            reservation_sheet.append_row([day, timeslot, first_name, last_name, num_persons, phone_number, special_request])
+            
+            # Confirm the reservation
+            st.success(f"Reservatie voor {timeslot} op {day} bevestigd! ({num_persons} personen)")
+        else:
+            # If the slot is full, show an error
+            available_spots = max_capacity - current_reservations
+            st.error(f"Sorry, this timeslot is fully booked. Nog {available_spots} plaatsen beschikbaar.")
     
-    if current_persons + num_persons <= max_capacity:
-        sheet.update_cell(cell.row, 3, current_persons + num_persons)
-        # Add to the reservations sheet
-        reservation_sheet.append_row([day, timeslot, first_name, last_name, num_persons, phone_number, special_request])
-        st.success(f"Reservatie voor {timeslot} op {day} bevestigd! ({num_persons} personen)")
-    else:
-        st.error(f"Sorry, this timeslot is fully booked. Nog {max_capacity - current_persons} plaatsen beschikbaar.")
+    except Exception as e:
+        st.error(f"Er is een fout opgetreden bij het maken van de reservatie: {e}")
+
 
 # Function to collect email addresses
 def collect_email(email):
