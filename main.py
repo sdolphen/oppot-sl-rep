@@ -115,6 +115,8 @@ e-mail adres: secretariaat.sportingoppem@outlook.be
 
 Dank nogmaals en tot dan!""")
 
+st.subheader("Afhalen")
+
 # Updated timeslots
 updated_timeslots = {
     "Zaterdag": ["17u-18u30", "18u30-20u", "20u-21u30"],
