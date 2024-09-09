@@ -115,15 +115,6 @@ e-mail adres: secretariaat.sportingoppem@outlook.be
 
 Dank nogmaals en tot dan!""")
 
-email = st.text_input("E-mail adres", key="notification_email")
-if st.button("Indienen"):
-    if email:
-        collect_email(email)
-    else:
-        st.error("Gelieve een geldig e-mail adres in te vullen")
-
-st.write("Tot snel!")
-
 # Updated timeslots
 updated_timeslots = {
     "Zaterdag": ["17u-18u30", "18u30-20u", "20u-21u30"],
