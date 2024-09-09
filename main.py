@@ -31,23 +31,23 @@ except WorksheetNotFound:
 # Function to check and update slot availability
 def get_slot_availability(day):
     timeslots = sheet.get_all_records()
-    available_slots = [slot for slot in timeslots if slot['Day'] == day and slot['Aantal Reservaties'] < slot['Max Capaciteit']]
+    available_slots = [slot for slot in timeslots if slot['Day'] == day and slot['Aantal Personen'] < 60]  # Max 60 people per slot
     return available_slots
 
 # Function to make a reservation
 def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_number, special_request):
     # Find the row with the matching day and timeslot
     cell = sheet.find(timeslot)
-    current_reservations = int(sheet.cell(cell.row, 3).value)  # Assuming the third column is 'Aantal Reservaties'
-    max_capacity = int(sheet.cell(cell.row, 4).value)  # Assuming the fourth column is 'Max Capaciteit'
+    current_persons = int(sheet.cell(cell.row, 3).value)  # Assuming the third column is 'Aantal Personen'
+    max_capacity = 60  # Max capacity for each slot is 60 people
     
-    if current_reservations < max_capacity:
-        sheet.update_cell(cell.row, 3, current_reservations + 1)
+    if current_persons + num_persons <= max_capacity:
+        sheet.update_cell(cell.row, 3, current_persons + num_persons)
         # Add to the reservations sheet
         reservation_sheet.append_row([day, timeslot, first_name, last_name, num_persons, phone_number, special_request])
-        st.success(f"Reservatie voor {timeslot} op {day} bevestigd!")
+        st.success(f"Reservatie voor {timeslot} op {day} bevestigd! ({num_persons} personen)")
     else:
-        st.error("Sorry, this timeslot is fully booked.")
+        st.error(f"Sorry, this timeslot is fully booked. Nog {max_capacity - current_persons} plaatsen beschikbaar.")
 
 # Function to collect email addresses
 def collect_email(email):
@@ -114,11 +114,11 @@ with col1:
     if available_slots_saturday:
         for slot in available_slots_saturday:
             timeslot = slot['Timeslot']
-            current_reservations = slot['Aantal Reservaties']
-            max_capacity = slot['Max Capaciteit']
+            current_persons = slot['Aantal Personen']
+            max_capacity = 60
 
             if timeslot in updated_timeslots["Zaterdag"]:
-                with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
+                with st.expander(f"{timeslot} ({current_persons}/{max_capacity} personen gereserveerd)"):
                     with st.form(key=f'reservation_form_saturday_{timeslot}'):
                         first_name = st.text_input("Voornaam", key=f'first_name_saturday_{timeslot}')
                         last_name = st.text_input("Naam", key=f'last_name_saturday_{timeslot}')
@@ -131,7 +131,7 @@ with col1:
                             if first_name and last_name and num_persons and phone_number:
                                 make_reservation("Zaterdag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
                             else:
-                                st.error("Gelieve alle velden in te vullen")
+                                st.error("Gelieve alle verplichte velden in te vullen")
     else:
         st.info("Alle timeslots voor zaterdag zijn volzet")
 
@@ -141,11 +141,11 @@ with col2:
     if available_slots_sunday:
         for slot in available_slots_sunday:
             timeslot = slot['Timeslot']
-            current_reservations = slot['Aantal Reservaties']
-            max_capacity = slot['Max Capaciteit']
+            current_persons = slot['Aantal Personen']
+            max_capacity = 60
 
             if timeslot in updated_timeslots["Zondag"]:
-                with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
+                with st.expander(f"{timeslot} ({current_persons}/{max_capacity} personen gereserveerd)"):
                     with st.form(key=f'reservation_form_sunday_{timeslot}'):
                         first_name = st.text_input("Voornaam", key=f'first_name_sunday_{timeslot}')
                         last_name = st.text_input("Naam", key=f'last_name_sunday_{timeslot}')
@@ -158,6 +158,6 @@ with col2:
                             if first_name and last_name and num_persons and phone_number:
                                 make_reservation("Zondag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
                             else:
-                                st.error("Gelieve alle velden in te vullen")
+                                st.error("Gelieve alle verplichte velden in te vullen")
     else:
         st.info("Alle timeslots voor zondag zijn volzet")
