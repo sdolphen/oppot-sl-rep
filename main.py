@@ -29,16 +29,9 @@ except WorksheetNotFound:
     email_list_sheet = client.open("Oppemevent").add_worksheet(title="Email List", rows="1000", cols="2")
 
 # Function to check and update slot availability
-# Function to check and update slot availability with key checking
 def get_slot_availability(day):
     timeslots = sheet.get_all_records()
-    available_slots = []
-    
-    for slot in timeslots:
-        if 'Day' in slot and 'Aantal Personen' in slot:
-            if slot['Day'] == day and slot['Aantal Personen'] < 60:  # Max 60 people per slot
-                available_slots.append(slot)
-    
+    available_slots = [slot for slot in timeslots if slot['Day'] == day and slot['Aantal Personen'] < 60]  # Max 60 people per slot
     return available_slots
 
 # Function to make a reservation
@@ -138,7 +131,7 @@ with col1:
                             if first_name and last_name and num_persons and phone_number:
                                 make_reservation("Zaterdag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
                             else:
-                                st.error("Gelieve alle verplichte velden in te vullen")
+                                st.error("Gelieve alle velden in te vullen")
     else:
         st.info("Alle timeslots voor zaterdag zijn volzet")
 
@@ -165,6 +158,6 @@ with col2:
                             if first_name and last_name and num_persons and phone_number:
                                 make_reservation("Zondag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
                             else:
-                                st.error("Gelieve alle verplichte velden in te vullen")
+                                st.error("Gelieve alle velden in te vullen")
     else:
         st.info("Alle timeslots voor zondag zijn volzet")
