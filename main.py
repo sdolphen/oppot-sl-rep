@@ -35,7 +35,7 @@ def get_slot_availability(day):
     return available_slots
 
 # Function to make a reservation
-def make_reservation(day, timeslot, name, address, email):
+def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_number, special_request):
     # Find the row with the matching day and timeslot
     cell = sheet.find(timeslot)
     current_reservations = int(sheet.cell(cell.row, 3).value)  # Assuming the third column is 'Aantal Reservaties'
@@ -44,7 +44,7 @@ def make_reservation(day, timeslot, name, address, email):
     if current_reservations < max_capacity:
         sheet.update_cell(cell.row, 3, current_reservations + 1)
         # Add to the reservations sheet
-        reservation_sheet.append_row([day, timeslot, name, address, email])
+        reservation_sheet.append_row([day, timeslot, first_name, last_name, num_persons, phone_number, special_request])
         st.success(f"Reservatie voor {timeslot} op {day} bevestigd!")
     else:
         st.error("Sorry, this timeslot is fully booked.")
@@ -60,9 +60,13 @@ st.image("oppem-logo.png", width=75)
 # Introductory text
 st.title("Spaghettiweekend SP Oppem")
 st.write("""
-Welkom bij Sporting Oppem en leuk dat u interesse hebt in ons Eerste Spaghettiweekend.
-We zorgen ervoor dat je hier vanaf zaterdag 14 september zal kunnen reserveren (is niet verplicht) of kan bestellen om af te halen. 
-We zullen volgende shiften doen:
+Welkom bij Sporting Oppem en leuk dat u interesse hebt in ons Eerste Spaghettiweekend.  
+
+Indien u graag vooraf reserveert (geen wachttijd) of indien u graag wil afhalen, dan kan dit via ons onderstaande invulformulier.
+
+Op het menu staat er natuurlijk spaghetti (zowel zonder als met vlees), met als alternatief een croque monsieur. Je kan achteraf ook nog een dessertje kiezen.
+
+Voor de reservaties werken we met shiften van telkens anderhalf uur. Je kan kiezen uit volgende shiften:
 """)
 
 # Highlighted text with custom background color
@@ -78,8 +82,13 @@ st.markdown(
 st.write("")
 # New text and email input field
 st.write("""
-Wil je graag verwittigd worden wanneer deze link actief zal zijn, laat dan hier je e-mail adres achter en we sturen jou een mailtje van zodra de reservaties en bestellingen kunnen geplaatst worden.
-""")
+Indien u liever wenst af te halen, dan kan u hieronder een bestelling plaatsen.
+
+Is er iets niet duidelijk of hebt u andere vragen, stuur ons gerust een mailtje.
+
+e-mail adres: secretariaat.sportingoppem@outlook.be
+
+Dank nogmaals en tot dan!""")
 
 email = st.text_input("E-mail adres", key="notification_email")
 if st.button("Indienen"):
@@ -111,14 +120,16 @@ with col1:
             if timeslot in updated_timeslots["Zaterdag"]:
                 with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
                     with st.form(key=f'reservation_form_saturday_{timeslot}'):
-                        name = st.text_input("Naam", key=f'name_saturday_{timeslot}')
-                        address = st.text_input("Adres", key=f'address_saturday_{timeslot}')
-                        email = st.text_input("Email", key=f'email_saturday_{timeslot}')
+                        first_name = st.text_input("Voornaam", key=f'first_name_saturday_{timeslot}')
+                        last_name = st.text_input("Naam", key=f'last_name_saturday_{timeslot}')
+                        num_persons = st.number_input("Aantal personen", min_value=1, step=1, key=f'num_persons_saturday_{timeslot}')
+                        phone_number = st.text_input("Tel. nummer", key=f'phone_saturday_{timeslot}')
+                        special_request = st.text_area("Speciale wens", key=f'special_wish_saturday_{timeslot}')
                         submit = st.form_submit_button(label=f'Reserveer {timeslot}')
 
                         if submit:
-                            if name and address and email:
-                                make_reservation("Zaterdag", timeslot, name, address, email)
+                            if first_name and last_name and num_persons and phone_number:
+                                make_reservation("Zaterdag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
                             else:
                                 st.error("Gelieve alle velden in te vullen")
     else:
@@ -136,14 +147,16 @@ with col2:
             if timeslot in updated_timeslots["Zondag"]:
                 with st.expander(f"{timeslot} ({current_reservations}/{max_capacity} gereserveerd)"):
                     with st.form(key=f'reservation_form_sunday_{timeslot}'):
-                        name = st.text_input("Naam", key=f'name_sunday_{timeslot}')
-                        address = st.text_input("Adres", key=f'address_sunday_{timeslot}')
-                        email = st.text_input("Email", key=f'email_sunday_{timeslot}')
+                        first_name = st.text_input("Voornaam", key=f'first_name_sunday_{timeslot}')
+                        last_name = st.text_input("Naam", key=f'last_name_sunday_{timeslot}')
+                        num_persons = st.number_input("Aantal personen", min_value=1, step=1, key=f'num_persons_sunday_{timeslot}')
+                        phone_number = st.text_input("Tel. nummer", key=f'phone_sunday_{timeslot}')
+                        special_request = st.text_area("Speciale wens", key=f'special_wish_sunday_{timeslot}')
                         submit = st.form_submit_button(label=f'Reserveer {timeslot}')
 
                         if submit:
-                            if name and address and email:
-                                make_reservation("Zondag", timeslot, name, address, email)
+                            if first_name and last_name and num_persons and phone_number:
+                                make_reservation("Zondag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
                             else:
                                 st.error("Gelieve alle velden in te vullen")
     else:
