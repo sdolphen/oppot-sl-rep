@@ -115,7 +115,7 @@ e-mail adres: secretariaat.sportingoppem@outlook.be
 
 Dank nogmaals en tot dan!""")
 
-st.subheader("Afhalen")
+st.subheader("Reserveren")
 
 # Updated timeslots
 updated_timeslots = {
@@ -127,7 +127,7 @@ updated_timeslots = {
 col1, col2 = st.columns(2)
 
 with col1:
-    st.subheader("Zaterdag")
+    st.subheader("##Zaterdag")
     available_slots_saturday = get_slot_availability("Zaterdag")
     if available_slots_saturday:
         for slot in available_slots_saturday:
@@ -154,7 +154,7 @@ with col1:
         st.info("Alle timeslots voor zaterdag zijn volzet")
 
 with col2:
-    st.subheader("Zondag")
+    st.subheader("##Zondag")
     available_slots_sunday = get_slot_availability("Zondag")
     if available_slots_sunday:
         for slot in available_slots_sunday:
