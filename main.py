@@ -186,3 +186,42 @@ with col2:
                                 st.error("Gelieve alle velden in te vullen")
     else:
         st.info("Alle timeslots voor zondag zijn volzet")
+
+# Add this below your Sunday reservation code to include the "Afhalen" slots
+
+# Introductory text for pickup reservations
+st.subheader("Afhalen")
+st.write("""
+Indien u wenst af te halen, dan kan u hieronder een reservatie plaatsen. U kan kiezen uit de volgende tijdslots:
+""")
+
+# Timeslots for pickup
+pickup_timeslots = {
+    "Afhalen": ["12u00-13u00", "13u00-14u00"]
+}
+
+# Create a section for pickup reservations
+available_slots_pickup = get_slot_availability("Afhalen")
+if available_slots_pickup:
+    for slot in available_slots_pickup:
+        timeslot = slot['Timeslot']
+        current_persons = slot['Aantal Personen']
+        max_capacity = 60
+
+        if timeslot in pickup_timeslots["Afhalen"]:
+            with st.expander(f"{timeslot} ({current_persons}/{max_capacity} personen gereserveerd)"):
+                with st.form(key=f'reservation_form_pickup_{timeslot}'):
+                    first_name = st.text_input("Voornaam", key=f'first_name_pickup_{timeslot}')
+                    last_name = st.text_input("Naam", key=f'last_name_pickup_{timeslot}')
+                    num_persons = st.number_input("Aantal personen", min_value=1, step=1, key=f'num_persons_pickup_{timeslot}')
+                    phone_number = st.text_input("Tel. nummer", key=f'phone_pickup_{timeslot}')
+                    special_request = st.text_area("Speciale wens", key=f'special_wish_pickup_{timeslot}')
+                    submit = st.form_submit_button(label=f'Reserveer {timeslot}')
+
+                    if submit:
+                        if first_name and last_name and num_persons and phone_number:
+                            make_reservation("Afhalen", timeslot, first_name, last_name, num_persons, phone_number, special_request)
+                        else:
+                            st.error("Gelieve alle velden in te vullen")
+else:
+    st.info("Alle timeslots voor afhalen zijn volzet")
