@@ -28,11 +28,18 @@ except WorksheetNotFound:
     # Create the worksheet if it doesn't exist
     email_list_sheet = client.open("Oppemevent").add_worksheet(title="Email List", rows="1000", cols="2")
 
-# Function to check and update slot availability
+# Function to check and update slot availability with proper key names
 def get_slot_availability(day):
     timeslots = sheet.get_all_records()
-    available_slots = [slot for slot in timeslots if slot['Day'] == day and slot['Aantal Personen'] < 60]  # Max 60 people per slot
+    
+    # Correct column name to 'Aantal Reservaties'
+    available_slots = [
+        slot for slot in timeslots 
+        if slot['Day'] == day and int(slot['Aantal Reservaties']) < 60  # Max 60 people per slot
+    ]
+    
     return available_slots
+
 
 # Function to make a reservation
 def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_number, special_request):
