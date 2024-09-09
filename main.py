@@ -32,10 +32,10 @@ except WorksheetNotFound:
 def get_slot_availability(day):
     timeslots = sheet.get_all_records()
     
-    # Correct column name to 'Aantal Reservaties'
+    # Correct column name to 'Aantal Personen'
     available_slots = [
         slot for slot in timeslots 
-        if slot['Day'] == day and int(slot['Aantal Reservaties']) < 60  # Max 60 people per slot
+        if slot['Day'] == day and int(slot['Aantal Personen']) < 60  # Max 60 people per slot
     ]
     
     return available_slots
@@ -50,12 +50,12 @@ def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_nu
             st.error(f"Timeslot '{timeslot}' niet gevonden in de sheet.")
             return
 
-        # Fetch column indices for 'Aantal Reservaties' and 'Max Capaciteit'
+        # Fetch column indices for 'Aantal Personen' and 'Max Capaciteit'
         try:
-            reservaties_col = sheet.find("Aantal Reservaties").col
+            reservaties_col = sheet.find("Aantal Personen").col
             capaciteit_col = sheet.find("Max Capaciteit").col
         except AttributeError:
-            st.error(f"Kolommen 'Aantal Reservaties' of 'Max Capaciteit' niet gevonden in de sheet.")
+            st.error(f"Kolommen 'Aantal Personen' of 'Max Capaciteit' niet gevonden in de sheet.")
             return
         
         # Fetch current number of people reserved
@@ -68,7 +68,7 @@ def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_nu
         
         # Check if there is enough room for the number of people in this reservation
         if current_reservations + num_persons <= max_capacity:
-            # Update the number of people in the 'Aantal Reservaties' column
+            # Update the number of people in the 'Aantal Personen' column
             sheet.update_cell(cell.row, reservaties_col, current_reservations + num_persons)
             
             # Add the reservation details to the reservation sheet
@@ -142,7 +142,7 @@ with col1:
     if available_slots_saturday:
         for slot in available_slots_saturday:
             timeslot = slot['Timeslot']
-            current_reservations = slot['Aantal Reservaties']
+            current_reservations = slot['Aantal Personen']
             max_capacity = 60
 
             if timeslot in updated_timeslots["Zaterdag"]:
@@ -170,7 +170,7 @@ with col2:
     if available_slots_sunday:
         for slot in available_slots_sunday:
             timeslot = slot['Timeslot']
-            current_reservations = slot['Aantal Reservaties']
+            current_reservations = slot['Aantal Personen']
             max_capacity = 60
 
             if timeslot in updated_timeslots["Zondag"]:
