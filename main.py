@@ -35,7 +35,7 @@ def get_slot_availability(day):
     # Correct column name to 'Aantal Reservaties'
     available_slots = [
         slot for slot in timeslots 
-        if slot['Day'] == day and int(slot['Aantal Reservaties']) < 60  # Max 60 people per slot
+        if slot['Day'] == day and int(slot['Aantal Personen']) < 60  # Max 60 people per slot
     ]
     
     return available_slots
@@ -48,7 +48,7 @@ def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_nu
         cell = sheet.find(timeslot)
         
         # Fetch the current number of people from the 'Aantal Reservaties' column
-        current_reservations_str = sheet.cell(cell.row, sheet.find("Aantal Reservaties").col).value
+        current_reservations_str = sheet.cell(cell.row, sheet.find("Aantal Personen").col).value
         current_reservations = int(current_reservations_str) if current_reservations_str.isdigit() else 0
         
         # Fetch the max capacity from the 'Max Capaciteit' column
@@ -58,7 +58,7 @@ def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_nu
         # Check if there is enough room for the number of people in this reservation
         if current_reservations + num_persons <= max_capacity:
             # Update the number of people in the 'Aantal Reservaties' column
-            sheet.update_cell(cell.row, sheet.find("Aantal Reservaties").col, current_reservations + num_persons)
+            sheet.update_cell(cell.row, sheet.find("Aantal Personen").col, current_reservations + num_persons)
             
             # Add the reservation details to the reservation sheet
             reservation_sheet.append_row([day, timeslot, first_name, last_name, num_persons, phone_number, special_request])
