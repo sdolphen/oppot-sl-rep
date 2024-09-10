@@ -184,6 +184,8 @@ with col2:
         st.info("Alle timeslots voor zondag zijn volzet")
 
 # Add this below your Sunday reservation code to include the "Afhalen" slots
+st.markdown("""""")
+st.markdown("""""")
 
 # Introductory text for pickup reservations
 st.subheader("Afhalen")
