@@ -42,7 +42,7 @@ def get_slot_availability(day):
 
 
 # Function to make a reservation
-def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_number, special_request):
+def make_reservation(day, timeslot, first_name, last_name, email_address, num_persons, phone_number, special_request):
     try:
         # Find the row with the matching day and timeslot
         cell = sheet.find(timeslot)
