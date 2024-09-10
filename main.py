@@ -225,7 +225,7 @@ if available_slots_pickup:
                         if first_name and phone_number and email_address:
                             total_items = num_bolognaise + num_veggie + num_saus
                             if total_items > 0:
-                                make_reservation("Afhalen", timeslot, first_name, email_address total_items, phone_number, "")
+                                make_reservation("Afhalen", timeslot, first_name, email_address, total_items, phone_number, "")
                             else:
                                 st.error("Gelieve minstens één portie te selecteren.")
                         else:
