@@ -60,8 +60,8 @@ def make_reservation(day, timeslot, first_name, last_name, email_address, num_pe
             # Update the number of people in the 'Aantal Reservaties' column
             sheet.update_cell(cell.row, sheet.find("Aantal Personen").col, current_reservations + num_persons)
             
-            # Add the reservation details to the reservation sheet
-            reservation_sheet.append_row([day, timeslot, first_name, last_name, num_persons, phone_number, special_request])
+            # Add the reservation details to the reservation sheet (including the email)
+            reservation_sheet.append_row([day, timeslot, first_name, last_name, email_address, num_persons, phone_number, special_request])
             
             # Confirm the reservation
             st.success(f"Reservatie voor {timeslot} op {day} bevestigd! ({num_persons} personen)")
@@ -72,7 +72,6 @@ def make_reservation(day, timeslot, first_name, last_name, email_address, num_pe
     
     except Exception as e:
         st.error(f"Er is een fout opgetreden bij het maken van de reservatie: {e}")
-
 
 # Display the logo at the top and make it smaller using st.image
 st.image("oppem-logo.png", width=75)
