@@ -193,7 +193,7 @@ st.write("""
 U kan een bestelling plaatsen om af te halen tijdens ons eetfestijn. Hierbij kan u een aantal porties kiezen en/of u kan ook enkel saus bestellen.
 De porties zijn verpakt per persoon en zijn inclusief pasta / saus en een potje kaas. U kan kiezen uit een saus met vlees of zonder vlees. 
 
-Afhalen Zaterdag 19 oktober tussen 16u en 21u
+** Zaterdag 19 oktober ** tussen 16u en 21u
 - Naam
 - Aantal porties bolognaise (€ 12 per portie)
 - Aantal porties veggie (€ 12 per portie)
@@ -202,7 +202,7 @@ Afhalen Zaterdag 19 oktober tussen 16u en 21u
 - e-mail adres 
 Indien mogelijk, Naam, Tel nummer en e-mail adres verplicht maken.
 
-Afhalen Zondag 20 oktober tussen 11u en 15u
+** Zondag 20 oktober ** tussen 11u en 15u
 - Naam
 - Aantal porties bolognaise (€ 12 per portie)
 - Aantal porties veggie (€ 12 per portie)
