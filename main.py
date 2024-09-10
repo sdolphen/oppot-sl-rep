@@ -73,6 +73,39 @@ def make_reservation(day, timeslot, first_name, last_name, email_address, num_pe
     except Exception as e:
         st.error(f"Er is een fout opgetreden bij het maken van de reservatie: {e}")
 
+def make_reservation_afhaal(day, timeslot, first_name, last_name, email_address, phone_number, num_bolognaise, num_veggie, num_saus_bolognaise, num_saus_veggie, special_request):
+    try:
+        # Find the row with the matching day and timeslot
+        cell = sheet.find(timeslot)
+        
+        # Fetch the current number of people from the 'Aantal Reservaties' column
+        current_reservations_str = sheet.cell(cell.row, sheet.find("Aantal Personen").col).value
+        current_reservations = int(current_reservations_str) if current_reservations_str.isdigit() else 0
+        
+        # Fetch the max capacity from the 'Max Capaciteit' column
+        max_capacity_str = sheet.cell(cell.row, sheet.find("Max Capaciteit").col).value
+        max_capacity = int(max_capacity_str) if max_capacity_str.isdigit() else 60  # Default to 60 if missing
+        
+        # Update the number of people in the 'Aantal Reservaties' column
+        if current_reservations + num_bolognaise + num_veggie <= max_capacity:
+            sheet.update_cell(cell.row, sheet.find("Aantal Personen").col, current_reservations + num_bolognaise + num_veggie)
+            
+            # Append the reservation details, including the specific order details, to the reservation sheet
+            reservation_sheet.append_row([
+                day, timeslot, first_name, last_name, email_address, phone_number,
+                num_bolognaise, num_veggie, num_saus_bolognaise, num_saus_veggie, special_request
+            ])
+            
+            # Confirm the reservation
+            st.success(f"Reservatie voor {timeslot} op {day} bevestigd! ({num_bolognaise} bolognaise, {num_veggie} veggie, {num_saus_bolognaise} saus bolognaise, {num_saus_veggie} saus veggie)")
+        else:
+            st.error(f"Sorry, this timeslot is fully booked.")
+    
+    except Exception as e:
+        st.error(f"Er is een fout opgetreden bij het maken van de reservatie: {e}")
+
+
+
 # Display the logo at the top and make it smaller using st.image
 st.image("oppem-logo.png", width=75)
 
@@ -226,11 +259,16 @@ if available_slots_pickup:
                         if first_name and last_name and phone_number and email_address:
                             total_items = num_bolognaise + num_veggie + num_saus_bolognaise + num_saus_veggie
                             if total_items > 0:
-                                make_reservation("Afhalen", timeslot, first_name, last_name, email_address, total_items, phone_number, "")
+                                # Pass the order details to make_reservation
+                                make_reservation_afhaal(
+                                    "Afhalen", timeslot, first_name, last_name, email_address, phone_number,
+                                    num_bolognaise, num_veggie, num_saus_bolognaise, num_saus_veggie, ""
+                                )
                             else:
                                 st.error("Gelieve minstens één portie te selecteren.")
                         else:
                             st.error("Gelieve alle verplichte velden in te vullen (Voornaam, Achternaam, Tel. nummer, e-mail adres).")
+
 else:
     st.info("Alle timeslots voor afhalen zijn volzet")
 
