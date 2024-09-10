@@ -144,8 +144,7 @@ with col1:
 
                         if submit:
                             if first_name and last_name and email_address and num_persons and phone_number:
-                                make_reservation("Zaterdag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
-                                collect_email(email_address)  # Call function to save email
+                                make_reservation("Zaterdag", timeslot, first_name, last_name, email_address, num_persons, phone_number, special_request)
                             else:
                                 st.error("Gelieve alle velden in te vullen")
 
@@ -175,8 +174,7 @@ with col2:
 
                         if submit:
                             if first_name and last_name and email_address and num_persons and phone_number:
-                                make_reservation("Zondag", timeslot, first_name, last_name, num_persons, phone_number, special_request)
-                                collect_email(email_address)  # Call function to save email
+                                make_reservation("Zondag", timeslot, first_name, last_name, email_address, num_persons, phone_number, special_request)
                             else:
                                 st.error("Gelieve alle velden in te vullen")
 
@@ -227,8 +225,7 @@ if available_slots_pickup:
                         if first_name and phone_number and email_address:
                             total_items = num_bolognaise + num_veggie + num_saus
                             if total_items > 0:
-                                make_reservation("Afhalen", timeslot, first_name, total_items, phone_number, "")
-                                collect_email(email_address)  # Call function to save email
+                                make_reservation("Afhalen", timeslot, first_name, email_address total_items, phone_number, "")
                             else:
                                 st.error("Gelieve minstens één portie te selecteren.")
                         else:
