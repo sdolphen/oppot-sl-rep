@@ -184,14 +184,6 @@ with col2:
 st.markdown("""""")
 st.markdown("""""")
 
-# Introductory text for pickup reservations
-st.subheader("Afhalen")
-st.write("""
-U kan een bestelling plaatsen om af te halen tijdens ons eetfestijn. Hierbij kan u een aantal porties kiezen en/of u kan ook enkel saus bestellen.
-De porties zijn verpakt per persoon en zijn inclusief pasta / saus en een potje kaas. U kan kiezen uit een saus met vlees of zonder vlees. 
-
-""")
-
 # Timeslots for pickup
 st.subheader("Afhalen")
 st.write("""
