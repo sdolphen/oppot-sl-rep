@@ -193,22 +193,6 @@ st.write("""
 U kan een bestelling plaatsen om af te halen tijdens ons eetfestijn. Hierbij kan u een aantal porties kiezen en/of u kan ook enkel saus bestellen.
 De porties zijn verpakt per persoon en zijn inclusief pasta / saus en een potje kaas. U kan kiezen uit een saus met vlees of zonder vlees. 
 
-** Zaterdag 19 oktober ** tussen 16u en 21u
-- Naam
-- Aantal porties bolognaise (€ 12 per portie)
-- Aantal porties veggie (€ 12 per portie)
-- Enkel saus per halve liter (€ 12 per halve liter)
-- Tel nummer
-- e-mail adres 
-Indien mogelijk, Naam, Tel nummer en e-mail adres verplicht maken.
-
-** Zondag 20 oktober ** tussen 11u en 15u
-- Naam
-- Aantal porties bolognaise (€ 12 per portie)
-- Aantal porties veggie (€ 12 per portie)
-- Enkel saus per halve liter (€ 12 per halve liter)
-- Tel nummer
-- e-mail adres 
 """)
 
 # Timeslots for pickup
@@ -227,19 +211,27 @@ if available_slots_pickup:
         if timeslot in pickup_timeslots["Afhalen"]:
             with st.expander(f"{timeslot} ({current_persons}/{max_capacity} personen gereserveerd)"):
                 with st.form(key=f'reservation_form_pickup_{timeslot}'):
-                    first_name = st.text_input("Voornaam", key=f'first_name_pickup_{timeslot}')
-                    last_name = st.text_input("Naam", key=f'last_name_pickup_{timeslot}')
-                    email_address = st.text_input("Email", key=f'email_pickup_{timeslot}')  # New email field
-                    num_persons = st.number_input("Aantal personen", min_value=1, step=1, key=f'num_persons_pickup_{timeslot}')
+                    # Input fields for pickup reservations
+                    first_name = st.text_input("Naam", key=f'first_name_pickup_{timeslot}')
+                    num_bolognaise = st.number_input("Aantal porties bolognaise (€ 12 per portie)", min_value=0, step=1, key=f'num_bolognaise_pickup_{timeslot}')
+                    num_veggie = st.number_input("Aantal porties veggie (€ 12 per portie)", min_value=0, step=1, key=f'num_veggie_pickup_{timeslot}')
+                    num_saus = st.number_input("Enkel saus per halve liter (€ 12 per halve liter)", min_value=0, step=1, key=f'num_saus_pickup_{timeslot}')
                     phone_number = st.text_input("Tel. nummer", key=f'phone_pickup_{timeslot}')
-                    special_request = st.text_area("Speciale wens", key=f'special_wish_pickup_{timeslot}')
+                    email_address = st.text_input("Email", key=f'email_pickup_{timeslot}')
+                    
+                    # Submit button
                     submit = st.form_submit_button(label=f'Reserveer {timeslot}')
-
+                    
+                    # Validation to ensure mandatory fields are filled
                     if submit:
-                        if first_name and last_name and email_address and num_persons and phone_number:
-                            make_reservation("Afhalen", timeslot, first_name, last_name, num_persons, phone_number, special_request)
-                            collect_email(email_address)  # Call function to save email
+                        if first_name and phone_number and email_address:
+                            total_items = num_bolognaise + num_veggie + num_saus
+                            if total_items > 0:
+                                make_reservation("Afhalen", timeslot, first_name, total_items, phone_number, "")
+                                collect_email(email_address)  # Call function to save email
+                            else:
+                                st.error("Gelieve minstens één portie te selecteren.")
                         else:
-                            st.error("Gelieve alle velden in te vullen")
+                            st.error("Gelieve alle verplichte velden in te vullen (Naam, Tel. nummer, e-mail adres).")
 else:
     st.info("Alle timeslots voor afhalen zijn volzet")
