@@ -75,34 +75,18 @@ def make_reservation(day, timeslot, first_name, last_name, email_address, num_pe
 
 def make_reservation_afhaal(day, timeslot, first_name, last_name, email_address, phone_number, num_bolognaise, num_veggie, num_saus_bolognaise, num_saus_veggie, special_request):
     try:
-        # Find the row with the matching day and timeslot
-        cell = sheet.find(timeslot)
+        # Append the order details, including the specific information, to the third worksheet (pickup orders)
+        email_list_sheet.append_row([  # Assuming the third sheet is used for pickup orders
+            day, timeslot, first_name, last_name, email_address, phone_number,
+            num_bolognaise, num_veggie, num_saus_bolognaise, num_saus_veggie, special_request
+        ])
         
-        # Fetch the current number of people from the 'Aantal Reservaties' column
-        current_reservations_str = sheet.cell(cell.row, sheet.find("Aantal Personen").col).value
-        current_reservations = int(current_reservations_str) if current_reservations_str.isdigit() else 0
-        
-        # Fetch the max capacity from the 'Max Capaciteit' column
-        max_capacity_str = sheet.cell(cell.row, sheet.find("Max Capaciteit").col).value
-        max_capacity = int(max_capacity_str) if max_capacity_str.isdigit() else 60  # Default to 60 if missing
-        
-        # Update the number of people in the 'Aantal Reservaties' column
-        if current_reservations + num_bolognaise + num_veggie <= max_capacity:
-            sheet.update_cell(cell.row, sheet.find("Aantal Personen").col, current_reservations + num_bolognaise + num_veggie)
-            
-            # Append the reservation details, including the specific order details, to the reservation sheet
-            reservation_sheet.append_row([
-                day, timeslot, first_name, last_name, email_address, phone_number,
-                num_bolognaise, num_veggie, num_saus_bolognaise, num_saus_veggie, special_request
-            ])
-            
-            # Confirm the reservation
-            st.success(f"Reservatie voor {timeslot} op {day} bevestigd! ({num_bolognaise} bolognaise, {num_veggie} veggie, {num_saus_bolognaise} saus bolognaise, {num_saus_veggie} saus veggie)")
-        else:
-            st.error(f"Sorry, this timeslot is fully booked.")
+        # Confirm the reservation
+        st.success(f"Afhaalreservatie voor {timeslot} op {day} bevestigd! ({num_bolognaise} bolognaise, {num_veggie} veggie, {num_saus_bolognaise} saus bolognaise, {num_saus_veggie} saus veggie)")
     
     except Exception as e:
-        st.error(f"Er is een fout opgetreden bij het maken van de reservatie: {e}")
+        st.error(f"Er is een fout opgetreden bij het maken van de afhaalreservatie: {e}")
+
 
 
 
