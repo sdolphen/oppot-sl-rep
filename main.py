@@ -74,11 +74,6 @@ def make_reservation(day, timeslot, first_name, last_name, num_persons, phone_nu
         st.error(f"Er is een fout opgetreden bij het maken van de reservatie: {e}")
 
 
-# Function to collect email addresses
-def collect_email(email):
-    email_list_sheet.append_row([email])
-    st.success("Je email is opgeslagen! We laten je weten wanneer de link actief is.")
-
 # Display the logo at the top and make it smaller using st.image
 st.image("oppem-logo.png", width=75)
 
@@ -89,9 +84,9 @@ Welkom bij Sporting Oppem en leuk dat u interesse hebt in ons Eerste Spaghettiwe
 
 Indien u graag vooraf reserveert (geen wachttijd) of indien u graag wil afhalen, dan kan dit via ons onderstaande invulformulier.
 
-Op het menu staat er natuurlijk spaghetti (zowel zonder als met vlees), met als alternatief een croque monsieur. Je kan achteraf ook nog een dessertje kiezen.
+Op het menu staat er natuurlijk spaghetti (zowel zonder als met vlees), met als alternatief een croque monsieur. U kan achteraf ook nog een dessertje kiezen.
 
-Voor de reservaties werken we met shiften van telkens anderhalf uur. Je kan kiezen uit volgende shiften:
+Voor de reservaties werken we met shiften van telkens anderhalf uur. U kan kiezen uit volgende shiften:
 """)
 
 # Highlighted text with custom background color
@@ -193,7 +188,25 @@ with col2:
 # Introductory text for pickup reservations
 st.subheader("Afhalen")
 st.write("""
-Indien u wenst af te halen, dan kan u hieronder een reservatie plaatsen. U kan kiezen uit de volgende tijdslots:
+U kan een bestelling plaatsen om af te halen tijdens ons eetfestijn. Hierbij kan u een aantal porties kiezen en/of u kan ook enkel saus bestellen.
+De porties zijn verpakt per persoon en zijn inclusief pasta / saus en een potje kaas. U kan kiezen uit een saus met vlees of zonder vlees. 
+
+Afhalen Zaterdag 19 oktober tussen 16u en 21u
+- Naam
+- Aantal porties bolognaise (€ 8 per portie)
+- Aantal porties veggie (€ 8 per portie)
+- Enkel saus per halve liter (€ 10 per halve liter)
+- Tel nummer
+- e-mail adres 
+Indien mogelijk, Naam, Tel nummer en e-mail adres verplicht maken.
+
+Afhalen Zondag 20 oktober tussen 11u en 15u
+- Naam
+- Aantal porties bolognaise (€ 8 per portie)
+- Aantal porties veggie (€ 8 per portie)
+- Enkel saus per halve liter (€ 10 per halve liter)
+- Tel nummer
+- e-mail adres 
 """)
 
 # Timeslots for pickup
