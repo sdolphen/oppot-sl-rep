@@ -195,25 +195,25 @@ De porties zijn verpakt per persoon en zijn inclusief pasta / saus en een potje 
 
 Afhalen Zaterdag 19 oktober tussen 16u en 21u
 - Naam
-- Aantal porties bolognaise (€ 8 per portie)
-- Aantal porties veggie (€ 8 per portie)
-- Enkel saus per halve liter (€ 10 per halve liter)
+- Aantal porties bolognaise (€ 12 per portie)
+- Aantal porties veggie (€ 12 per portie)
+- Enkel saus per halve liter (€ 12 per halve liter)
 - Tel nummer
 - e-mail adres 
 Indien mogelijk, Naam, Tel nummer en e-mail adres verplicht maken.
 
 Afhalen Zondag 20 oktober tussen 11u en 15u
 - Naam
-- Aantal porties bolognaise (€ 8 per portie)
-- Aantal porties veggie (€ 8 per portie)
-- Enkel saus per halve liter (€ 10 per halve liter)
+- Aantal porties bolognaise (€ 12 per portie)
+- Aantal porties veggie (€ 12 per portie)
+- Enkel saus per halve liter (€ 12 per halve liter)
 - Tel nummer
 - e-mail adres 
 """)
 
 # Timeslots for pickup
 pickup_timeslots = {
-    "Afhalen": ["12u00-13u00", "13u00-14u00"]
+    "Afhalen": ["Zaterdag 16u00-21u00", "Zondag 11u00-15u00"]
 }
 
 # Create a section for pickup reservations
